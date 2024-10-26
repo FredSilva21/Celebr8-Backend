@@ -18,6 +18,9 @@ app.get('/', function (req, res) {
 app.use('/',require("./routes/auth.routes.js"))
 app.use('/',require("./routes/event.routes.js"))
 app.use('/',require("./routes/task.routes.js"))
+app.use('/',require("./routes/guest.routes.js"))
+app.use('/',require("./routes/companion.routes.js"))
+app.use('/',require("./routes/chat.routes.js"))
 // handle invalid routes
 app.all('*', function (req, res) {
 	res.status(400).json({ success: false, msg: `The API does not recognize the request on ${req.url}` });
