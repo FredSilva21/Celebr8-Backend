@@ -15,7 +15,8 @@ app.get('/', function (req, res) {
 });
 
 // routing middleware
-//app.use('/',require("./Routes/auth.routes.js"))
+app.use('/',require("./routes/auth.routes.js"))
+app.use('/',require("./routes/event.routes.js"))
 
 // handle invalid routes
 app.all('*', function (req, res) {

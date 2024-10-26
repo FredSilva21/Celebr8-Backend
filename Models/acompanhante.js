@@ -23,5 +23,4 @@ const Acompanhante = sequelize.define(
   },
   { tableName: "Acompanhante",timestamps: false },
 );
-Acompanhante.sync({ logging: false })
 module.exports = Acompanhante;

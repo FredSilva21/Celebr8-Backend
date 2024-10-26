@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Categoria_Despesa = sequelize.define(
   "Categoria Evento",
   {
-    id_categoria: {
+    id_categoria_despesa: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -15,5 +15,4 @@ const Categoria_Despesa = sequelize.define(
   },
   { tableName: "categoria_despesa", timestamps: false }
 );
-Categoria_Despesa.sync({ logging: false });
-module.exports = Categoria;
+module.exports = Categoria_Despesa;

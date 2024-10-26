@@ -37,5 +37,4 @@ const Tarefa = sequelize.define(
   },
   { tableName: "tarefa",timestamps: false },
 );
-Tarefa.sync({ logging: false })
 module.exports = Tarefa;

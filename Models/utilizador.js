@@ -24,5 +24,4 @@ const Utilizador = sequelize.define(
   },
   { tableName: "utilizador", timestamps: false }
 );
-Utilizador.sync({ logging: false });
 module.exports = Utilizador;

@@ -7,7 +7,7 @@ const Evento = sequelize.define(
     id_evento: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+      unique: true
     },
     nome_evento: {
       type: DataTypes.STRING,
@@ -21,14 +21,6 @@ const Evento = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    categoria_evento: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      references: {
-        model: "categoria",
-        key: "id_categoria",
-      },
-    },
     limite_participantes: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -40,5 +32,4 @@ const Evento = sequelize.define(
   },
   { tableName: "evento", timestamps: false }
 );
-Evento.sync({ logging: false });
 module.exports = Evento;

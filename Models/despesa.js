@@ -8,14 +8,6 @@ const Despesa = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    id_evento: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      reference: {
-        model: "Evento",
-        key: "id_evento",
-      },
-    },
     nome: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,15 +19,6 @@ const Despesa = sequelize.define(
     tipoPagamento: {
       type: DataTypes.ENUM("Total", "Parcial com Colaboradores", "Parcial"),
     },
-    categoria_despesa: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      reference: {
-        model: "Categoria Despesa",
-        key: "id_categoria",
-      },
-    },
-
     estado: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
@@ -44,5 +27,4 @@ const Despesa = sequelize.define(
   },
   { tableName: "despesa", timestamps: false }
 );
-Despesa.sync({ logging: false });
 module.exports = Despesa;

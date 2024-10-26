@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Categoria_Evento = sequelize.define(
   "Categoria Evento",
   {
-    id_categoria: {
+    id_categoria_evento: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,

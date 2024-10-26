@@ -1,3 +1,4 @@
+const sequelize = require("../sequelizeconnection");
 const Acompanhante = require("./acompanhante");
 const Categoria_Despesa = require("./categoria_despesa");
 const Categoria_Evento = require("./categoria_evento");
@@ -21,8 +22,8 @@ Categoria_Despesa.hasMany(Despesa, { foreignKey: "categoria_despesa" });
 Evento.belongsTo(Categoria_Evento, { foreignKey: "categoria_evento" });
 Categoria_Evento.hasMany(Evento, { foreignKey: "categoria_evento" });
 
-Evento.belongsToMany(Utilizador, { through: Evento_Utilizador });
-Utilizador.belongsToMany(Evento, { through: Evento_Utilizador });
+Evento.belongsToMany(Utilizador, { through: Evento_Utilizador , foreignKey: "id_evento" });
+Utilizador.belongsToMany(Evento, { through: Evento_Utilizador, foreignKey: "id_utilizador" });
 
 Tarefa.belongsTo(Evento, { foreignKey: "id_evento" });
 Evento.hasMany(Tarefa, { foreignKey: "id_evento" });
@@ -35,6 +36,24 @@ Utilizador.hasMany(Mensagem, { foreignKey: "id_utilizador" });
 
 Mensagem.belongsTo(Evento, { foreignKey: "id_evento" });
 Evento.hasMany(Mensagem, { foreignKey: "id_evento" });
+
+// Sincronizando as tabelas na ordem correta
+Utilizador.sync({ logging: false })
+  .then(() => Categoria_Despesa.sync({ logging: false }))
+  .then(() => Categoria_Evento.sync({ logging: false }))
+  .then(() => Convidado.sync({ logging: false }))
+  .then(() => Acompanhante.sync({ logging: false }))
+  .then(() => Evento.sync({ logging: false }))
+  .then(() => Mensagem.sync({ logging: false }))
+  .then(() => Tarefa.sync({ logging: false }))
+  .then(() => Evento_Utilizador.sync({ logging: false }))
+  .then(() => Despesa.sync({ logging: false }))
+  .then(() => {
+    console.log("All tables created successfully.");
+  })
+  .catch((err) => {
+    console.error("Error creating tables:", err);
+  });
 
 module.exports = {
     Acompanhante,

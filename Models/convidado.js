@@ -28,5 +28,4 @@ const Convidado = sequelize.define(
   },
   { tableName: "Convidado",timestamps: false },
 );
-Convidado.sync({ logging: false })
 module.exports = Convidado;

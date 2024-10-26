@@ -35,5 +35,4 @@ const Mensagem = sequelize.define(
   },
   { tableName: "mensagem", timestamps: false }
 );
-Mensagem.sync({ logging: false });
 module.exports = Mensagem;
