@@ -48,7 +48,9 @@ module.exports = {
       const payload = jwt.decode(bearer, secret);
 
       const user = await Utilizador.findByPk(payload.id);
-      
+      console.log("User: ", user)
+      console.log("Payload: ", payload)
+      console.log("Req.params.userId: ", req.params.userId)
       if (req.params.userId && payload.id == req.params.userId) {
         res.locals.userId = payload.id;
         next();
