@@ -28,8 +28,8 @@ exports.register = async (req, res) => {
     });
 
     return res.status(201).json({
-      success: "User created successfully",
-      User: user,
+      message: "User created successfully",
+      result: user,
     });
   } catch (error) {
     console.log(error);
@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
 
     const token = await SignToken(user.id_utilizador);
     return res.status(200).json({
-      success: "Login successful",
+      message: "Login successful",
       token: token,
       user_id: user.id_utilizador,
     });

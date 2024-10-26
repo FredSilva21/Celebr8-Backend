@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
 // routing middleware
 app.use('/',require("./routes/auth.routes.js"))
 app.use('/',require("./routes/event.routes.js"))
-
+app.use('/',require("./routes/task.routes.js"))
 // handle invalid routes
 app.all('*', function (req, res) {
 	res.status(400).json({ success: false, msg: `The API does not recognize the request on ${req.url}` });

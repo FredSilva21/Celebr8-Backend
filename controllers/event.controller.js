@@ -10,7 +10,7 @@ exports.getAllUserEvents = async (req, res) => {
       where: { id_utilizador: userId },
     });
 
-    res.status(200).json({ Evento_Utilizador: events });
+    res.status(200).json({ message:"Retrived all users events", result: events });
   } catch (error) {
     console.log(error);
     res
@@ -43,7 +43,7 @@ exports.createUserEvent = async (req, res) => {
 
     res.status(201).json({
       success: "Event created successfully",
-      Evento: event,
+      Event: event,
     });
   } catch (error) {
     console.log(error);
@@ -69,7 +69,7 @@ exports.getEventById = async (req, res) => {
 
     const event = await Evento.findByPk(eventId);
 
-    res.status(200).json({ Evento: event });
+    res.status(200).json({ message:"Retrieved user event successfully ",result: event });
   } catch (error) {
     console.log(error);
     res
@@ -78,6 +78,7 @@ exports.getEventById = async (req, res) => {
   }
 };
 
+//DONE
 exports.updateEvent = async (req, res) => {
   const { userId, eventId } = req.params;
   const { nome, data, local, limite_despesas, limite_participantes } = req.body;
@@ -102,7 +103,7 @@ exports.updateEvent = async (req, res) => {
       { where: { id_evento: eventId } }
     );
 
-    res.status(200).json({ message: "Event updated successfully" });
+    res.status(200).json({ message: "Event updated successfully"});
   } catch (error) {
     console.log(error);
     res
@@ -111,6 +112,7 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
+//DONE
 exports.deleteEvent = async (req, res) => {
   const { userId, eventId } = req.params;
 

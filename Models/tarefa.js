@@ -17,11 +17,11 @@ const Tarefa = sequelize.define(
       allowNull: false,
     },
     data_inicio: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     data_fim: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     prioridade: {
