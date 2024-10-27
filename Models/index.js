@@ -37,13 +37,16 @@ Utilizador.hasMany(Mensagem, { foreignKey: "id_utilizador" });
 Mensagem.belongsTo(Evento, { foreignKey: "id_evento" });
 Evento.hasMany(Mensagem, { foreignKey: "id_evento" });
 
+Evento.hasMany(Convidado,{foreignKey: "id_evento"});
+Convidado.belongsTo(Evento,{foreignKey: "id_evento"});
+
 // Sincronizando as tabelas na ordem correta
 Utilizador.sync({ logging: false })
   .then(() => Categoria_Despesa.sync({ logging: false }))
   .then(() => Categoria_Evento.sync({ logging: false }))
+  .then(() => Evento.sync({ logging: false }))
   .then(() => Convidado.sync({ logging: false }))
   .then(() => Acompanhante.sync({ logging: false }))
-  .then(() => Evento.sync({ logging: false }))
   .then(() => Mensagem.sync({ logging: false }))
   .then(() => Tarefa.sync({ logging: false }))
   .then(() => Evento_Utilizador.sync({ logging: false }))
