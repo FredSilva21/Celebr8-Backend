@@ -24,6 +24,7 @@ app.use('/',require("./routes/companion.routes.js"))
 app.use('/',require("./routes/costs.routes.js"))
 app.use('/',require("./routes/categories.routes.js"))
 app.use('/',require("./routes/user.routes.js"))
+app.use("/",require("./routes/template.routes.js"))
 // handle invalid routes
 app.all('*', function (req, res) {
 	res.status(400).json({ success: false, msg: `The API does not recognize the request on ${req.url}` });

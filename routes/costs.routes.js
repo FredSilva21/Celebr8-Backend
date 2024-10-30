@@ -4,7 +4,7 @@ const CostController = require("../controllers/cost.controller");
 const {verifyUser,verifySameUser} = require("../Middleware/jwt");
 
 router
-.get("/users/:userId/events/costs",verifyUser,verifySameUser, CostController.getAllEventCosts)
-.post("/users/:userId/events/costs",verifyUser,verifySameUser,CostController.createEventCost);
+.get("/users/:userId/events/:eventId/costs",verifyUser,verifySameUser, CostController.getAllEventCosts)
+.post("/users/:userId/events/:eventId/costs",verifyUser,verifySameUser,CostController.createEventCost);
 
 module.exports = router;

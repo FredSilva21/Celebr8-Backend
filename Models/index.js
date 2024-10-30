@@ -9,6 +9,8 @@ const Evento_Utilizador = require("./evento_utilizador");
 const Mensagem = require("./mensagem");
 const Tarefa= require("./tarefa");
 const Utilizador = require("./utilizador");
+const Template_Despesa = require("./template_depesa")
+const Template_Tarefa = require("./template_tarefa")
 
 Acompanhante.belongsTo(Convidado, { foreignKey: "id_convidado" });
 Convidado.hasMany(Acompanhante, { foreignKey: "id_convidado" });
@@ -40,6 +42,12 @@ Evento.hasMany(Mensagem, { foreignKey: "id_evento" });
 Evento.hasMany(Convidado,{foreignKey: "id_evento"});
 Convidado.belongsTo(Evento,{foreignKey: "id_evento"});
 
+Template_Despesa.belongsTo(Despesa, { foreignKey: "id_despesa" });
+Despesa.hasMany(Template_Despesa, { foreignKey: "id_despesa" });
+
+Template_Tarefa.belongsTo(Tarefa, { foreignKey: "id_tarefa" });
+Tarefa.hasMany(Template_Tarefa, { foreignKey: "id_tarefa" });
+
 // Sincronizando as tabelas na ordem correta
 Utilizador.sync({ logging: false })
   .then(() => Categoria_Despesa.sync({ logging: false }))
@@ -51,6 +59,8 @@ Utilizador.sync({ logging: false })
   .then(() => Tarefa.sync({ logging: false }))
   .then(() => Evento_Utilizador.sync({ logging: false }))
   .then(() => Despesa.sync({ logging: false }))
+  .then(() => Template_Despesa.sync({ logging: false }))
+  .then(() => Template_Tarefa.sync({ logging: false }))
   .then(() => {
     console.log("All tables created successfully.");
   })
@@ -69,4 +79,6 @@ module.exports = {
     Mensagem,
     Tarefa,
     Utilizador,
+    Template_Despesa,
+    Template_Tarefa
 };

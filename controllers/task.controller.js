@@ -48,7 +48,7 @@ exports.createEventTask = async (req, res) => {
       return res.status(404).json({ error: "User is not part of this event" });
     }
 
-    await Tarefa.create({
+    const task=await Tarefa.create({
       id_evento: eventId,
       id_utilizador: userId,
       titulo,
