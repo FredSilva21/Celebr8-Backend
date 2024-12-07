@@ -1,6 +1,8 @@
-const { Utilizador } = require("../Models/index");
-const { compareHash, createHash } = require("../Middleware/bcrypt");
-const { SignToken } = require("../Middleware/jwt");
+const { User } = require("../models/index");
+const { compareHash, createHash } = require("../middleware/bcrypt");
+const { SignToken } = require("../middleware/jwt");
+const nodeMailer = require("nodemailer");
+require("dotenv").config();
 
 //Done
 exports.register = async (req, res) => {
@@ -14,17 +16,41 @@ exports.register = async (req, res) => {
       });
     }
 
-    if (await Utilizador.findOne({ where: { email: email } })) {
+    if (await User.findOne({ where: { email: email } })) {
       return res
         .status(400)
         .json({ error: "Already have an account with this email!" });
     }
 
     const hash = await createHash(password);
-    const user = await Utilizador.create({
-      nome: name,
+    const user = await User.create({
+      name: name,
       email: email,
       password: hash,
+    });
+
+    //Send email
+    const transporter = nodeMailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Welcome to Celebr8!",
+      text: `Hello ${name}, welcome to our app!`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
     });
 
     return res.status(201).json({

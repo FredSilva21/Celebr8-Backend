@@ -1,4 +1,4 @@
-const { Evento_Utilizador, Evento, Tarefa } = require("../Models/index");
+const { Evento_Utilizador, Evento, Tarefa } = require("../models/index");
 
 //DONE
 exports.getAllEventTasks = async (req, res) => {

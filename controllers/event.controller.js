@@ -1,4 +1,4 @@
-const { Evento_Utilizador, Evento } = require("../Models/index");
+const { Event_User, Event } = require("../models/index");
 const { generateEventId } = require("../utils/idGenerator");
 
 //DONE
@@ -6,13 +6,12 @@ exports.getAllUserEvents = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const events = await Evento_Utilizador.findAll({
-      where: { id_utilizador: userId },
+    const events = await Event_User.findAll({
+      where: { userId },
     });
 
     res.status(200).json({ message:"Retrived all users events", result: events });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .send({ message: "Something went wrong...", details: error });
@@ -22,31 +21,30 @@ exports.getAllUserEvents = async (req, res) => {
 //DONE
 exports.createUserEvent = async (req, res) => {
   const { userId } = req.params;
-  const { nome, data, local, limite_despesas, limite_participantes } = req.body;
+  const { name, date, location, costs_limit, guests_limit } = req.body;
 
-  const id_evento = await generateEventId();
+  const event_id = await generateEventId();
   try {
-    const event = await Evento.create({
-      id_evento: id_evento,
-      nome_evento: nome,
-      data_evento: data,
-      local_evento: local,
-      limite_despesas: limite_despesas,
-      limite_participantes: limite_participantes,
+    const event = await Event.create({
+      event_id,
+      name,
+      date,
+      location,
+      costs_limit,
+      guests_limit,
     });
 
-    await Evento_Utilizador.create({
-      id_utilizador: userId,
-      id_evento: event.id_evento,
-      tipo_utilizador: true,
+    await Event_User.create({
+      user_id: userId,
+      event_id: event.event_id,
+      user_type: true,
     });
 
     res.status(201).json({
       success: "Event created successfully",
-      Event: event,
+      result: event,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       message: "Something went wrong. Please try again later",
       details: error,
@@ -60,18 +58,17 @@ exports.getEventById = async (req, res) => {
 
   try {
     const findUserEvent = await Evento_Utilizador.findOne({
-      where: { id_utilizador: userId, id_evento: eventId },
+      where: { user_id: userId, event_id: eventId },
     });
 
     if (!findUserEvent) {
       return res.status(404).send({ message: "Event not found" });
     }
 
-    const event = await Evento.findByPk(eventId);
+    const event = await Event.findByPk(eventId);
 
     res.status(200).json({ message:"Retrieved user event successfully ",result: event });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .send({ message: "Something went wrong...", details: error });
@@ -81,31 +78,30 @@ exports.getEventById = async (req, res) => {
 //DONE
 exports.updateEvent = async (req, res) => {
   const { userId, eventId } = req.params;
-  const { nome, data, local, limite_despesas, limite_participantes } = req.body;
+  const { name, date, location, guests_limit, costs_limit  } = req.body;
 
   try {
-    const findUserEvent = await Evento_Utilizador.findOne({
-      where: { id_utilizador: userId, id_evento: eventId },
+    const findUserEvent = await Event_User.findOne({
+      where: { user_id: userId, event_id: eventId },
     });
 
     if (!findUserEvent) {
       return res.status(404).send({ message: "Event not found" });
     }
 
-    await Evento.update(
+    await Event.update(
       {
-        nome_evento: nome,
-        data_evento: data,
-        local_evento: local,
-        limite_despesas: limite_despesas,
-        limite_participantes: limite_participantes,
+        name,
+        date,
+        location,
+        guests_limit,
+        costs_limit,
       },
-      { where: { id_evento: eventId } }
+      { where: { event_id: eventId } }
     );
 
     res.status(200).json({ message: "Event updated successfully"});
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .send({ message: "Something went wrong...", details: error });
@@ -117,19 +113,18 @@ exports.deleteEvent = async (req, res) => {
   const { userId, eventId } = req.params;
 
   try {
-    const findUserEvent = await Evento_Utilizador.findOne({
-      where: { id_utilizador: userId, id_evento: eventId },
+    const findUserEvent = await Event_User.findOne({
+      where: { user_id: userId, event_id: eventId },
     });
 
     if (!findUserEvent) {
       return res.status(404).send({ message: "Event not found" });
     }
     findUserEvent.destroy();
-    await Evento.destroy({ where: { id_evento: eventId } });
+    await Event.destroy({ where: { event_id: eventId } });
 
     res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
-    console.log(error);
     res
       .status(500)
       .send({ message: "Something went wrong...", details: error });

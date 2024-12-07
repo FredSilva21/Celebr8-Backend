@@ -1,30 +1,30 @@
-const sequelize = require("../sequelizeconnection");
+const sequelize = require("../config/db.config");
 const { Sequelize, DataTypes } = require("sequelize");
-const Despesa = sequelize.define(
-  "Despesa",
+const Cost = sequelize.define(
+  "Cost",
   {
-    id_despesa: {
+    cost_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    nome: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    valor: {
+    value: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    tipoPagamento: {
-      type: DataTypes.ENUM("Total", "Parcial com Colaboradores", "Parcial"),
+    payment_type: {
+      type: DataTypes.ENUM("Total", "Per Person", "Per Group"),
     },
-    estado: {
+    status: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
   },
-  { tableName: "despesa", timestamps: false }
+  { tableName: "cost", timestamps: false }
 );
-module.exports = Despesa;
+module.exports = Cost;

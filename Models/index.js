@@ -1,66 +1,69 @@
-const sequelize = require("../sequelizeconnection");
-const Acompanhante = require("./acompanhante");
-const Categoria_Despesa = require("./categoria_despesa");
-const Categoria_Evento = require("./categoria_evento");
-const Convidado = require("./convidado");
-const Despesa = require("./despesa");
-const Evento = require("./evento");
-const Evento_Utilizador = require("./evento_utilizador");
-const Mensagem = require("./mensagem");
-const Tarefa= require("./tarefa");
-const Utilizador = require("./utilizador");
-const Template_Despesa = require("./template_depesa")
-const Template_Tarefa = require("./template_tarefa")
+const Companion = require("./companion");
+const Cost_Category = require("./cost_category");
+const Event_Category = require("./event_category");
+const Guest = require("./guest");
+const Cost = require("./cost");
+const Event = require("./event");
+const Event_User = require("./event_user");
+const Chat = require("./chat");
+const Task= require("./task");
+const User = require("./user");
+const Cost_Template = require("./cost_template")
+const Task_Template = require("./task_template")
+const Message = require("./message");
 
-Acompanhante.belongsTo(Convidado, { foreignKey: "id_convidado" });
-Convidado.hasMany(Acompanhante, { foreignKey: "id_convidado" });
+// Define relationships
+Companion.belongsTo(Guest, { foreignKey: "guest_id" });
+Guest.hasMany(Companion, { foreignKey: "guest_id" });
 
-Despesa.belongsTo(Evento, { foreignKey: "id_evento" });
-Evento.hasMany(Despesa, { foreignKey: "id_evento" });
+Cost.belongsTo(Event, { foreignKey: "event_id" });
+Event.hasMany(Cost, { foreignKey: "event_id" });
 
-Despesa.belongsTo(Categoria_Despesa, { foreignKey: "categoria_despesa" });
-Categoria_Despesa.hasMany(Despesa, { foreignKey: "categoria_despesa" });
+Cost.belongsTo(Cost_Category, { foreignKey: "category_id" });
+Cost_Category.hasMany(Cost, { foreignKey: "category_id" });
 
-Evento.belongsTo(Categoria_Evento, { foreignKey: "categoria_evento" });
-Categoria_Evento.hasMany(Evento, { foreignKey: "categoria_evento" });
+Event.belongsTo(Event_Category, { foreignKey: "category_id" });
+Event_Category.hasMany(Event, { foreignKey: "category_id" });
 
-Evento.belongsToMany(Utilizador, { through: Evento_Utilizador , foreignKey: "id_evento" });
-Utilizador.belongsToMany(Evento, { through: Evento_Utilizador, foreignKey: "id_utilizador" });
+Event.belongsToMany(User, { through: Event_User, foreignKey: "event_id" });
+User.belongsToMany(Event, { through: Event_User, foreignKey: "user_id" });
 
-Tarefa.belongsTo(Evento, { foreignKey: "id_evento" });
-Evento.hasMany(Tarefa, { foreignKey: "id_evento" });
+Task.belongsTo(Event, { foreignKey: "event_id" });
+Event.hasMany(Task, { foreignKey: "event_id" });
 
-Tarefa.belongsTo(Utilizador, { foreignKey: "id_utilizador" });
-Utilizador.hasMany(Tarefa, { foreignKey: "id_utilizador" });
+Task.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Task, { foreignKey: "user_id" });
 
-Mensagem.belongsTo(Utilizador, { foreignKey: "id_utilizador" });
-Utilizador.hasMany(Mensagem, { foreignKey: "id_utilizador" });
+Chat.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Chat, { foreignKey: "user_id" });
 
-Mensagem.belongsTo(Evento, { foreignKey: "id_evento" });
-Evento.hasMany(Mensagem, { foreignKey: "id_evento" });
+Chat.hasMany(Message, { foreignKey: "chat_id" });
+Message.belongsTo(Chat, { foreignKey: "chat_id" });
 
-Evento.hasMany(Convidado,{foreignKey: "id_evento"});
-Convidado.belongsTo(Evento,{foreignKey: "id_evento"});
+Chat.belongsTo(Event, { foreignKey: "event_id" });
+Event.hasOne(Chat, { foreignKey: "event_id" });
 
-Template_Despesa.belongsTo(Despesa, { foreignKey: "id_despesa" });
-Despesa.hasMany(Template_Despesa, { foreignKey: "id_despesa" });
+Cost_Template.belongsTo(Cost_Category, { foreignKey: "category_id" });
+Cost_Category.hasMany(Cost_Template, { foreignKey: "category_id" });
 
-Template_Tarefa.belongsTo(Tarefa, { foreignKey: "id_tarefa" });
-Tarefa.hasMany(Template_Tarefa, { foreignKey: "id_tarefa" });
+Task_Template.belongsTo(Event_Category, { foreignKey: "category_id" });
+Event_Category.hasMany(Task_Template, { foreignKey: "category_id" });
 
-// Sincronizando as tabelas na ordem correta
-Utilizador.sync({ logging: false })
-  .then(() => Categoria_Despesa.sync({ logging: false }))
-  .then(() => Categoria_Evento.sync({ logging: false }))
-  .then(() => Evento.sync({ logging: false }))
-  .then(() => Convidado.sync({ logging: false }))
-  .then(() => Acompanhante.sync({ logging: false }))
-  .then(() => Mensagem.sync({ logging: false }))
-  .then(() => Tarefa.sync({ logging: false }))
-  .then(() => Evento_Utilizador.sync({ logging: false }))
-  .then(() => Despesa.sync({ logging: false }))
-  .then(() => Template_Despesa.sync({ logging: false }))
-  .then(() => Template_Tarefa.sync({ logging: false }))
+
+// Sync all models
+User.sync({ logging: false })
+  .then(() => Cost_Category.sync({ logging: false }))
+  .then(() => Event_Category.sync({ logging: false }))
+  .then(() => Event.sync({ logging: false }))
+  .then(() => Guest.sync({ logging: false }))
+  .then(() => Companion.sync({ logging: false }))
+  .then(() => Chat.sync({ logging: false }))
+  .then(() => Message.sync({ logging: false }))
+  .then(() => Task.sync({ logging: false }))
+  .then(() => Event_User.sync({ logging: false }))
+  .then(() => Cost.sync({ logging: false }))
+  .then(() => Cost_Template.sync({ logging: false }))
+  .then(() => Task_Template.sync({ logging: false }))
   .then(() => {
     console.log("All tables created successfully.");
   })
@@ -69,16 +72,17 @@ Utilizador.sync({ logging: false })
   });
 
 module.exports = {
-    Acompanhante,
-    Categoria_Despesa,
-    Categoria_Evento,
-    Convidado,
-    Despesa,
-    Evento,
-    Evento_Utilizador,
-    Mensagem,
-    Tarefa,
-    Utilizador,
-    Template_Despesa,
-    Template_Tarefa
+  Companion,
+  Cost_Category,
+  Event_Category,
+  Guest,
+  Cost,
+  Event,
+  Event_User,
+  Chat,
+  Task,
+  User,
+  Cost_Template,
+  Task_Template,
+  Message,
 };

@@ -1,40 +1,40 @@
-const sequelize = require("../sequelizeconnection");
+const sequelize = require("../config/db.config");
 const { Sequelize, DataTypes } = require("sequelize");
-const Tarefa = sequelize.define(
-  "Tarefa",
+const Task = sequelize.define(
+  "Task",
   {
-    id_tarefa: {
+    task_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    titulo: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    descricao: {
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    data_inicio: {
+    start_date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    data_fim: {
+    end_date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    prioridade: {
-      type: DataTypes.ENUM("Baixa", "Média", "Alta"),
+    priority: {
+      type: DataTypes.ENUM("Low", "Medium", "High"),
       allowNull: false,
-      defaultValue: "Média",
+      defaultValue: "Medium",
     },
-    estado: {
+    status: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
   },
-  { tableName: "tarefa",timestamps: false },
+  { tableName: "task",timestamps: false },
 );
-module.exports = Tarefa;
+module.exports = Task;

@@ -1,35 +1,34 @@
-const { ref } = require("vue");
-const sequelize = require("../sequelizeconnection");
+const sequelize = require("../config/db.config");
 const { Sequelize, DataTypes } = require("sequelize");
-const Evento = sequelize.define(
-  "Evento",
+const Event = sequelize.define(
+  "Event",
   {
-    id_evento: {
+    event_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       unique: true
     },
-    nome_evento: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    data_evento: {
+    date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    local_evento: {
+    location: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    limite_participantes: {
+    guests_limit: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    limite_despesas: {
+    costs_limit: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
   },
-  { tableName: "evento", timestamps: false }
+  { tableName: "event", timestamps: false }
 );
-module.exports = Evento;
+module.exports = Event;

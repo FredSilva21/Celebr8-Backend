@@ -1,5 +1,5 @@
-const { Utilizador } = require("../Models/index");
-const { createHash, compareHash } = require("../Middleware/bcrypt");
+const { Utilizador } = require("../models/index");
+const { createHash, compareHash } = require("../middleware/bcrypt");
 
 exports.getUserById = async (req, res) => {
   const { userId } = req.params;
@@ -10,7 +10,7 @@ exports.getUserById = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ user });
+    res.status(200).json({ message: "User found", result: user });
   } catch (error) {
     console.error("Error getting user:", error);
     res
