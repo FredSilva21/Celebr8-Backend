@@ -1,7 +1,7 @@
 const sequelize = require("../config/db.config");
 const { Sequelize, DataTypes } = require("sequelize");
 const Companion = sequelize.define(
-  "Acompanhante",
+  "Companion",
   {
     companion_id: {
       type: DataTypes.INTEGER,

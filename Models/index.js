@@ -13,7 +13,7 @@ const Task_Template = require("./task_template")
 const Message = require("./message");
 
 // Define relationships
-Companion.belongsTo(Guest, { foreignKey: "guest_id" });
+Companion.belongsTo(Guest, { foreignKey: "guest_id"});
 Guest.hasMany(Companion, { foreignKey: "guest_id" });
 
 Cost.belongsTo(Event, { foreignKey: "event_id" });
@@ -48,6 +48,9 @@ Cost_Category.hasMany(Cost_Template, { foreignKey: "category_id" });
 
 Task_Template.belongsTo(Event_Category, { foreignKey: "category_id" });
 Event_Category.hasMany(Task_Template, { foreignKey: "category_id" });
+
+Event.hasMany(Guest, { foreignKey: "event_id" });
+Guest.belongsTo(Event, { foreignKey: "event_id" });
 
 
 // Sync all models

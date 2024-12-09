@@ -1,4 +1,4 @@
-const { Evento_Utilizador, Evento, Tarefa } = require("../models/index");
+const { Event_User, Event, Task } = require("../models/index");
 
 //DONE
 exports.getAllEventTasks = async (req, res) => {
@@ -6,15 +6,15 @@ exports.getAllEventTasks = async (req, res) => {
 
   try {
     if (
-      !(await Evento_Utilizador.findOne({
-        where: { id_utilizador: userId, id_evento: eventId },
+      !(await Event_User.findOne({
+        where: { user_id: userId, event_id: eventId },
       }))
     ) {
       return res.status(404).json({ error: "User is not part of this event" });
     }
 
-    const tasks = await Tarefa.findAll({
-      where: { id_evento: eventId },
+    const tasks = await Task.findAll({
+      where: { event_id: eventId },
     });
 
     res
@@ -31,31 +31,31 @@ exports.getAllEventTasks = async (req, res) => {
 //DONE
 exports.createEventTask = async (req, res) => {
   const { userId, eventId } = req.params;
-  const { titulo, descricao, data_inicio, data_fim, prioridade } = req.body;
+  const { title, description, start_date, end_date, priority } = req.body;
 
   try {
-    if (!titulo || !descricao || !data_inicio || !data_fim || !prioridade) {
+    if (!title || !description || !start_date || !end_date || !priority) {
       return res.status(400).json({
         error: "Missing fields. All fields must be sent in the body request!",
       });
     }
 
     if (
-      !(await Evento_Utilizador.findOne({
-        where: { id_utilizador: userId, id_evento: eventId },
+      !(await Event_User.findOne({
+        where: { user_id: userId, event_id: eventId },
       }))
     ) {
       return res.status(404).json({ error: "User is not part of this event" });
     }
 
-    const task=await Tarefa.create({
-      id_evento: eventId,
-      id_utilizador: userId,
-      titulo,
-      descricao,
-      data_inicio,
-      data_fim,
-      prioridade,
+    const task=await Task.create({
+      event_id: eventId,
+      user_id: userId,
+      title,
+      description,
+      start_date,
+      end_date,
+      priority,
     });
 
     res
@@ -74,15 +74,15 @@ exports.getTaskById = async (req, res) => {
 
   try {
     if (
-      !(await Evento_Utilizador.findOne({
-        where: { id_utilizador: userId, id_evento: eventId },
+      !(await Event_User.findOne({
+        where: { user_id: userId, event_id: eventId },
       }))
     ) {
       return res.status(404).json({ error: "User is not part of this event" });
     }
 
-    const task = await Tarefa.findOne({
-      where: { id_tarefa: taskId },
+    const task = await Task.findOne({
+      where: { task_id: taskId },
     });
 
     if (!task) {
@@ -99,42 +99,42 @@ exports.getTaskById = async (req, res) => {
 
 exports.editTask = async (req, res) => {
   const { userId, eventId, taskId } = req.params;
-  const { titulo, descricao, data_inicio, data_fim, prioridade } = req.body;
+  const { title, description, start_date, end_date, priority } = req.body;
 
   try {
-    if (!titulo || !descricao || !data_inicio || !data_fim || !prioridade) {
+    if (!title || !description || !start_date || !end_date || !priority) {
       return res.status(400).json({
         error: "Missing fields. All fields must be sent in the body request!",
       });
     }
 
     if (
-      !(await Evento_Utilizador.findOne({
-        where: { id_utilizador: userId, id_evento: eventId },
+      !(await Event_User.findOne({
+        where: { user_id: userId, event_id: eventId },
       }))
     ) {
       return res.status(404).json({ error: "User is not part of this event" });
     }
 
-    const task = await Tarefa.findOne({
-      where: { id_tarefa: taskId },
+    const task = await Task.findOne({
+      where: { task_id: taskId },
     });
 
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    await Tarefa.update(
+    await Task.update(
       {
-        titulo,
-        descricao,
-        data_inicio,
-        data_fim,
-        prioridade,
-        id_utilizador: userId,
+        title,
+        description,
+        start_date,
+        end_date,
+        priority,
+        user_id: userId,
       },
       {
-        where: { id_tarefa: taskId },
+        where: { task_id: taskId },
       }
     );
 
@@ -151,23 +151,23 @@ exports.deleteTask = async (req, res) => {
 
   try {
     if (
-      !(await Evento_Utilizador.findOne({
-        where: { id_utilizador: userId, id_evento: eventId },
+      !(await Event_User.findOne({
+        where: { user_id: userId, event_id: eventId },
       }))
     ) {
       return res.status(404).json({ error: "User is not part of this event" });
     }
 
-    const task = await Tarefa.findOne({
-      where: { id_tarefa: taskId },
+    const task = await Task.findOne({
+      where: { task_id: taskId },
     });
 
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
     }
 
-    await Tarefa.destroy({
-      where: { id_tarefa: taskId },
+    await Task.destroy({
+      where: { task_id: taskId },
     });
 
     res.status(200).json({ message: "Task deleted successfully" });

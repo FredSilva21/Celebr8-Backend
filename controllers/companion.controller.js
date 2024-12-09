@@ -1,38 +1,38 @@
-const { Evento_Utilizador, Evento, Convidado, Acompanhante } = require("../Models/index");
+const { Event_User, Event, Guest, Companion } = require("../models/index");
 
 exports.createGuestCompanion = async (req, res) => {
     const { userId, eventId, guestId } = req.params;
-    const { nome } = req.body;
+    const { name } = req.body;
 
     try {
-        if(!nome){
+        if(!name){
             return res.status(400).json({ error: "Name is required" });
         }
-        // Verifica se o evento existe
-        const eventExists = await Evento.findByPk(eventId);
+        // Verifica se o Event existe
+        const eventExists = await Event.findByPk(eventId);
         if (!eventExists) {
             return res.status(404).json({ error: "Event not found" });
         }
 
-        const userIsPartOfEvent = await Evento_Utilizador.findOne({
-            where: { id_utilizador: userId, id_evento: eventId },
+        const userIsPartOfEvent = await Event_User.findOne({
+            where: { user_id: userId, event_id: eventId },
         });
 
         if (!userIsPartOfEvent) {
             return res.status(404).json({ error: "User is not part of this event" });
         }
 
-        // Verifica se o convidado existe
-        const guestExists = await Convidado.findByPk(guestId);
+        // Verifica se o Guest existe
+        const guestExists = await Guest.findByPk(guestId);
         if (!guestExists) {
             return res.status(404).json({ error: "Guest not found" });
         }
 
-        if(await Acompanhante.findOne({ where: { id_convidado: guestId, nome } })){
+        if(await Companion.findOne({ where: { guest_id: guestId, name } })){
             return res.status(400).json({ error: "Companion already exists" });
         }
 
-        const newCompanion = await Acompanhante.create({ id_convidado: guestId, nome });
+        const newCompanion = await Companion.create({ guest_id: guestId, name });
         res.status(201).json({ message: "Companion created", result: newCompanion });
     } catch (error) {
         console.error("Error creating companion:", error);
@@ -42,39 +42,39 @@ exports.createGuestCompanion = async (req, res) => {
 
 exports.editGuestCompanion = async (req, res) => {
     const { userId, eventId, guestId, companionId } = req.params;
-    const { nome } = req.body;
+    const { name } = req.body;
 
     try {
-        if(!nome){
+        if(!name){
             return res.status(400).json({ error: "Name is required" });
         }
-        // Verifica se o evento existe
-        const eventExists = await Evento.findByPk(eventId);
+        // Verifica se o Event existe
+        const eventExists = await Event.findByPk(eventId);
         if (!eventExists) {
             return res.status(404).json({ error: "Event not found" });
         }
 
-        const userIsPartOfEvent = await Evento_Utilizador.findOne({
-            where: { id_utilizador: userId, id_evento: eventId },
+        const userIsPartOfEvent = await Event_User.findOne({
+            where: { user_id: userId, event_id: eventId },
         });
 
         if (!userIsPartOfEvent) {
             return res.status(404).json({ error: "User is not part of this event" });
         }
 
-        // Verifica se o convidado existe
-        const guestExists = await Convidado.findByPk(guestId);
+        // Verifica se o Guest existe
+        const guestExists = await Guest.findByPk(guestId);
         if (!guestExists) {
             return res.status(404).json({ error: "Guest not found" });
         }
 
-        // Verifica se o acompanhante existe
-        const companionExists = await Acompanhante.findByPk(companionId);
+        // Verifica se o Companion existe
+        const companionExists = await Companion.findByPk(companionId);
         if (!companionExists) {
             return res.status(404).json({ error: "Companion not found" });
         }
 
-        await Acompanhante.update({ nome }, { where: { id_acompanhante: companionId } });
+        await Companion.update({ name }, { where: { companion_id: companionId } });
         res.status(200).json({ message: "Companion updated" });
     } catch (error) {
         console.error("Error updating companion:", error);

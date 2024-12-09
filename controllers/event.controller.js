@@ -1,24 +1,27 @@
 const { Event_User, Event } = require("../models/index");
 const { generateEventId } = require("../utils/idGenerator");
 
-//DONE
+/* The `exports.getAllUserEvents` function is responsible for retrieving all events associated with a
+specific user. Here's a breakdown of what the function does: */
 exports.getAllUserEvents = async (req, res) => {
   const { userId } = req.params;
-
+  console.log(userId);
   try {
     const events = await Event_User.findAll({
-      where: { userId },
+      where: { user_id: userId },
     });
 
     res.status(200).json({ message:"Retrived all users events", result: events });
   } catch (error) {
+    console.log(error)
     res
       .status(500)
       .send({ message: "Something went wrong...", details: error });
   }
 };
 
-//DONE
+/* The `exports.createUserEvent` function is responsible for creating a new event associated with a
+specific user. Here is a breakdown of what the function does: */
 exports.createUserEvent = async (req, res) => {
   const { userId } = req.params;
   const { name, date, location, costs_limit, guests_limit } = req.body;
@@ -45,6 +48,7 @@ exports.createUserEvent = async (req, res) => {
       result: event,
     });
   } catch (error) {
+    console.log("ERRO",error);
     res.status(500).send({
       message: "Something went wrong. Please try again later",
       details: error,
@@ -52,12 +56,13 @@ exports.createUserEvent = async (req, res) => {
   }
 };
 
-//DONE
+/* The `exports.getEventById` function is responsible for retrieving a specific event associated with a
+user. Here is a breakdown of what the function does: */
 exports.getEventById = async (req, res) => {
   const { userId, eventId } = req.params;
 
   try {
-    const findUserEvent = await Evento_Utilizador.findOne({
+    const findUserEvent = await Event_User.findOne({
       where: { user_id: userId, event_id: eventId },
     });
 
@@ -75,7 +80,8 @@ exports.getEventById = async (req, res) => {
   }
 };
 
-//DONE
+/* The `exports.updateEvent` function is responsible for updating an existing event associated with a
+specific user. Here is a breakdown of what the function does: */
 exports.updateEvent = async (req, res) => {
   const { userId, eventId } = req.params;
   const { name, date, location, guests_limit, costs_limit  } = req.body;
@@ -108,7 +114,9 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
-//DONE
+
+/* The `exports.deleteEvent` function is responsible for deleting an event associated with a specific
+user. Here is a breakdown of what the function does: */
 exports.deleteEvent = async (req, res) => {
   const { userId, eventId } = req.params;
 

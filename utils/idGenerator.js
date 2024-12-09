@@ -1,7 +1,7 @@
-const { Evento } = require("../models/index"); 
+const { Event } = require("../models/index"); 
 
 const generateEventId = async () => {
-  const existingEvents = await Evento.findAll({ attributes: ["id_evento"] });
+  const existingEvents = await Event.findAll({ attributes: ["event_id"] });
 
   let newId;
   do {
