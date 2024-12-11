@@ -18,6 +18,7 @@ const Cost = sequelize.define(
     },
     payment_type: {
       type: DataTypes.ENUM("Total", "Per Person", "Per Group"),
+      defaultValue: "Total",
     },
     status: {
       type: DataTypes.BOOLEAN,
