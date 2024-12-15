@@ -1,4 +1,5 @@
-const { User, Refresh_Token } = require("../models/index");
+const User = require("../models").User;
+const Refresh_Token = require("../models").Refresh_Token;
 const { compareHash, createHash } = require("../middleware/bcrypt");
 const { SignToken } = require("../middleware/jwt");
 const nodeMailer = require("nodemailer");
