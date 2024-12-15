@@ -11,6 +11,8 @@ const User = require("./user");
 const Cost_Template = require("./cost_template")
 const Task_Template = require("./task_template")
 const Message = require("./message");
+const Guest_Category = require("./guest_category");
+const Refresh_Token= require("./refresh_token");
 
 // Define relationships
 Companion.belongsTo(Guest, { foreignKey: "guest_id"});
@@ -52,12 +54,20 @@ Event_Category.hasMany(Task_Template, { foreignKey: "category_id" });
 Event.hasMany(Guest, { foreignKey: "event_id" });
 Guest.belongsTo(Event, { foreignKey: "event_id" });
 
+Guest.belongsTo(Guest_Category, { foreignKey: "category_id" });
+Guest_Category.hasMany(Guest, { foreignKey: "category_id" });
+
+Refresh_Token.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Refresh_Token, { foreignKey: "user_id" });
+
 
 // Sync all models
 User.sync({ logging: false })
+  .then(() => Refresh_Token.sync({ logging: false }))
   .then(() => Cost_Category.sync({ logging: false }))
   .then(() => Event_Category.sync({ logging: false }))
   .then(() => Event.sync({ logging: false }))
+  .then(() => Guest_Category.sync({ logging: false }))
   .then(() => Guest.sync({ logging: false }))
   .then(() => Companion.sync({ logging: false }))
   .then(() => Chat.sync({ logging: false }))
@@ -88,4 +98,6 @@ module.exports = {
   Cost_Template,
   Task_Template,
   Message,
+  Guest_Category,
+  Refresh_Token
 };

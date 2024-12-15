@@ -5,6 +5,7 @@ const cors = require('cors');       // middleware to enable CORS (Cross-Origin R
 const app = express();
 const port = process.env.PORT;	 	
 const host = process.env.MySQL_DB_HOST;
+const API_URL = process.env.API_URL;
 
 app.use(cors()); //enable ALL CORS requests (client requests from other domain)
 app.use(express.json()); //enable parsing JSON body data
@@ -29,4 +30,4 @@ app.use("/",require("./routes/template.routes.js"))
 app.all('*', function (req, res) {
 	res.status(400).json({ success: false, msg: `The API does not recognize the request on ${req.url}` });
 })
-app.listen(port, host, () => console.log(`App listening at http://${host}:${port}/`));
+app.listen(port, host, () => console.log(`App listening at ${API_URL}`));

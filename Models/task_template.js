@@ -6,6 +6,7 @@ const Task_Template = sequelize.define(
     template_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     template_name: {
       type: DataTypes.STRING,

@@ -72,5 +72,4 @@ module.exports = {
   
     return { accessToken, refreshToken };
   },
-  
 };
