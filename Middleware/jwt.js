@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/index");
+const { User } = require("../Models/index");
 const secret = process.env.JWT_Secret;
 
 module.exports = {
