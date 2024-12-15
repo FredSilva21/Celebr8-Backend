@@ -7,10 +7,11 @@ const db_host = process.env.MySQL_DB_HOST   || "127.0.0.1"
 const db_port = process.env.MySQL_DB_PORT || 3306
 const db_dialect = 'mysql'
 
-const sequelize = new Sequelize( db_name, db_user, db_password, db_port, {
+const sequelize = new Sequelize(db_name, db_user, db_password, {
     host: db_host,
     port: db_port,
     dialect: 'mysql',
 });
+
 
 module.exports = sequelize
