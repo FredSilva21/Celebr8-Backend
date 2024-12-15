@@ -1,4 +1,4 @@
-const {Cost_Category,Event_Category} = require("../models/index");
+const {Cost_Category,Event_Category} = require("../Models/index");
 
 /* The `exports.createCategoryCost` function is a controller function in a Node.js application that
 handles the creation of a category for costs. Here is a breakdown of what the function does: */

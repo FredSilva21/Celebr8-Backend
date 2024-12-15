@@ -1,4 +1,4 @@
-const { Event_User, Event, Guest, Companion } = require("../models/index");
+const { Event_User, Event, Guest, Companion } = require("../Models/index");
 
 exports.createGuestCompanion = async (req, res) => {
     const { userId, eventId, guestId } = req.params;

@@ -1,7 +1,7 @@
-const User = require("../models").User;
-const Refresh_Token = require("../models").Refresh_Token;
-const { compareHash, createHash } = require("../middleware/bcrypt");
-const { SignToken } = require("../middleware/jwt");
+const User = require("../Models").User;
+const Refresh_Token = require("../Models").Refresh_Token;
+const { compareHash, createHash } = require("../Middleware/bcrypt");
+const { SignToken } = require("../Middleware/jwt");
 const nodeMailer = require("nodemailer");
 require("dotenv").config();
 const fs = require("fs");

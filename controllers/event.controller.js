@@ -1,4 +1,4 @@
-const { Event_User, Event } = require("../models/index");
+const { Event_User, Event } = require("../Models/index");
 const { generateEventId } = require("../utils/idGenerator");
 
 /* The `exports.getAllUserEvents` function is responsible for retrieving all events associated with a

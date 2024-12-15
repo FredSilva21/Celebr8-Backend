@@ -1,4 +1,4 @@
-const {Cost, Cost_Category, Event} = require("../models/index");
+const {Cost, Cost_Category, Event} = require("../Models/index");
 
 exports.getAllEventCosts = async (req, res) => {
     const { eventId } = req.params;

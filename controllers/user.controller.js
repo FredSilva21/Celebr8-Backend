@@ -1,5 +1,5 @@
-const { Utilizador } = require("../models/index");
-const { createHash, compareHash } = require("../middleware/bcrypt");
+const { Utilizador } = require("../Models/index");
+const { createHash, compareHash } = require("../Middleware/bcrypt");
 
 exports.getUserById = async (req, res) => {
   const { userId } = req.params;
