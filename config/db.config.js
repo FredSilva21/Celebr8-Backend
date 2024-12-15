@@ -10,7 +10,7 @@ const db_dialect = 'mysql'
 const sequelize = new Sequelize( db_name, db_user, db_password, db_port, {
     host: db_host,
     port: db_port,
-    dialect: db_dialect
+    dialect: 'mysql',
 });
 
 module.exports = sequelize
