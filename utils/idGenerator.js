@@ -1,4 +1,4 @@
-const { Event } = require("../models/index"); 
+const { Event } = require("../Models/index"); 
 
 const generateEventId = async () => {
   const existingEvents = await Event.findAll({ attributes: ["event_id"] });
