@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const EventController = require("../controllers/event.controller");
-const {verifyUser,verifySameUser} = require("../middleware/jwt");
+const {verifyUser,verifySameUser} = require("../Middleware/jwt");
 
 router
 .get("/users/:userId/events",verifyUser,verifySameUser, EventController.getAllUserEvents)
